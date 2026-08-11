@@ -376,6 +376,8 @@ function ensureChartInitialized(metricId) {
   return chart;
 }
 
+let derivedUpdateTimer = null;
+
 function syncZoom(startValue, endValue) {
   isSyncingZoom = true;
   state.currentRange = { startValue, endValue };
@@ -383,6 +385,16 @@ function syncZoom(startValue, endValue) {
     chart.dispatchAction({ type: 'dataZoom', startValue, endValue });
   }
   isSyncingZoom = false;
+
+  // 'dataZoom' fires repeatedly while dragging a slider/pinching (many times
+  // a second). updateHiddenTables() in particular can rebuild thousands of
+  // DOM nodes across 6 tables — running that on every single event froze the
+  // tab during a drag. Debounce so it only runs once the range settles.
+  if (derivedUpdateTimer) clearTimeout(derivedUpdateTimer);
+  derivedUpdateTimer = setTimeout(runDerivedUpdates, 150);
+}
+
+function runDerivedUpdates() {
   updateSummary();
   updateCaptions();
   updateHiddenTables();
@@ -396,6 +408,12 @@ function rebuildAllCharts() {
 
 // ---------- Accessible data tables ----------
 
+// Rendering a row per day is only reasonable for the accessible table (and
+// for the browser) up to a point — beyond this many days, a screen-reader
+// table would be unusably long anyway, so a short note replaces it instead
+// of quietly building thousands of DOM nodes.
+const HIDDEN_TABLE_MAX_ROWS = 400;
+
 function updateHiddenTables() {
   if (!state.currentRange) return;
   const { startValue, endValue } = state.currentRange;
@@ -406,6 +424,11 @@ function updateHiddenTables() {
     const records = metric.source === 'weather' ? state.weather : state.aqi;
     const inRange = recordsInRange(records, startValue, endValue);
     const unit = unitSuffix(metric);
+
+    if (inRange.length > HIDDEN_TABLE_MAX_ROWS) {
+      tbody.innerHTML = `<tr><td colspan="${metric.series.length + 1}">Zoom to a range under ${HIDDEN_TABLE_MAX_ROWS} days to see a day-by-day data table (currently showing ${inRange.length} days — use the summary stats and chart caption above instead).</td></tr>`;
+      continue;
+    }
 
     const rows = inRange
       .map((r) => {
@@ -694,8 +717,12 @@ async function init() {
     btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
   }
 
+  let resizeTimer = null;
   window.addEventListener('resize', () => {
-    for (const chart of chartInstances.values()) chart.resize();
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      for (const chart of chartInstances.values()) chart.resize();
+    }, 100);
   });
 }
 

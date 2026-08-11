@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dristanta-silwal.github.io/all-weather/sitemap.xml

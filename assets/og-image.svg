@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#C3CFBB"/>
+  <circle cx="1040" cy="130" r="46" fill="#B08A3E"/>
+  <text x="90" y="220" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" letter-spacing="4" fill="#5A5148">5-YEAR DESERT CLIMATE DATA</text>
+  <text x="86" y="320" font-family="Helvetica Neue, Arial, sans-serif" font-weight="700" font-size="96" fill="#3E362E">El Paso Climate</text>
+  <text x="90" y="380" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" fill="#5A5148">Temperature · UV · Wind · Rainfall · Humidity · Dust</text>
+  <path d="M0 560 L100 500 L200 545 L300 460 L400 520 L500 440 L600 510 L700 470 L800 530 L900 450 L1000 500 L1100 470 L1200 520 L1200 630 L0 630 Z" fill="#3E362E"/>
+  <path d="M0 560 L100 500 L200 545 L300 460 L400 520 L500 440 L600 510 L700 470 L800 530 L900 450 L1000 500 L1100 470 L1200 520" fill="none" stroke="#798D6A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

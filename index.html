@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>El Paso Climate — 5 Years of Desert Weather</title>
+  <meta name="description" content="Five years of daily temperature, UV, wind, rainfall, humidity, and dust data for El Paso, TX. Zoom into any period, switch units, and see how today compares to the desert's history." />
+  <link rel="canonical" href="https://dristanta-silwal.github.io/all-weather/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="El Paso Climate — 5 Years of Desert Weather" />
+  <meta property="og:description" content="Five years of daily temperature, UV, wind, rainfall, humidity, and dust data for El Paso, TX, with a zoomable interactive chart for each." />
+  <meta property="og:url" content="https://dristanta-silwal.github.io/all-weather/" />
+  <meta property="og:image" content="https://dristanta-silwal.github.io/all-weather/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="El Paso Climate — 5 Years of Desert Weather" />
+  <meta name="twitter:description" content="Five years of daily temperature, UV, wind, rainfall, humidity, and dust data for El Paso, TX." />
+  <meta name="twitter:image" content="https://dristanta-silwal.github.io/all-weather/assets/og-image.png" />
+
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "El Paso Climate",
+    "url": "https://dristanta-silwal.github.io/all-weather/",
+    "description": "Five years of daily temperature, UV, wind, rainfall, humidity, and dust data for El Paso, TX, with a zoomable interactive chart for each.",
+    "applicationCategory": "Weather",
+    "operatingSystem": "Any browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div>
+        <h1 class="site-title">El Paso Climate</h1>
+        <p class="site-tagline">Five years of daily desert weather, day by day.</p>
+      </div>
+      <div class="controls">
+        <button type="button" id="unit-toggle" class="toggle" aria-pressed="false">°F · mph · in</button>
+        <button type="button" id="theme-toggle" class="toggle" aria-pressed="false">Dark</button>
+        <button type="button" id="customize-toggle" class="toggle" aria-expanded="false" aria-controls="customize-panel">Customize</button>
+      </div>
+    </header>
+
+    <svg class="ridgeline animate" viewBox="0 0 1400 200" preserveAspectRatio="none" role="presentation" aria-hidden="true">
+      <path d="M0,180 L80,150 L160,170 L240,100 L320,130 L400,60 L480,110 L560,90 L640,140 L720,80 L800,120 L880,70 L960,130 L1040,100 L1120,150 L1200,120 L1280,160 L1400,180" />
+    </svg>
+
+    <section id="customize-panel" class="customize-panel" hidden>
+      <p class="eyebrow">Chart order</p>
+      <ul class="customize-list" id="customize-list"></ul>
+    </section>
+
+    <nav class="presets" aria-label="Date range presets">
+      <button type="button" class="preset-btn" data-preset="30d">Last 30 Days</button>
+      <button type="button" class="preset-btn" data-preset="1y">This Year</button>
+      <button type="button" class="preset-btn" data-preset="5y" aria-pressed="true">5-Year Overview</button>
+    </nav>
+
+    <section class="summary-row" id="summary-row" aria-label="Summary statistics for the selected range">
+      <div class="summary-stat">
+        <span class="eyebrow">Highest</span>
+        <span class="figure" id="stat-highest">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="eyebrow">Lowest</span>
+        <span class="figure" id="stat-lowest">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="eyebrow">Days ≥100°F</span>
+        <span class="figure" id="stat-days-over-100">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="eyebrow">Longest streak ≥100°F</span>
+        <span class="figure" id="stat-streak">—</span>
+      </div>
+    </section>
+
+    <div class="metric-switcher" id="metric-switcher" role="tablist" aria-label="Choose metric"></div>
+
+    <p class="state-message" id="loading-message">Loading five years of El Paso weather…</p>
+    <p class="state-message" id="error-message" hidden>Couldn't load the weather data. Try refreshing the page.</p>
+
+    <main class="charts" id="charts" hidden></main>
+
+    <footer class="site-footer">
+      <span id="last-updated">Data last updated: —</span>
+      <span>Source: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></span>
+    </footer>
+  </div>
+
+  <script src="lib/echarts.min.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>

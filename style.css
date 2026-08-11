@@ -1,0 +1,495 @@
+/* ---------- Fonts (self-hosted, no external CDN) ---------- */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("assets/fonts/bricolage-grotesque-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("assets/fonts/bricolage-grotesque-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/public-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/public-sans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/public-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("assets/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design tokens: "Desert Calm" ---------- */
+
+:root {
+  --bg: #c3cfbb;
+  --surface: #a9b79f;
+  --line: #798d6a;
+  --ink: #3e362e;
+  --ink-soft: #5a5148;
+
+  --accent-temp-high: #824536;
+  --accent-temp-low: #42586c;
+  --accent-uv: #6a5325;
+  --accent-wind: #435b53;
+  --accent-precip: #40596d;
+  --accent-humidity: #5c5365;
+  --accent-dust: #615444;
+
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body: "Public Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-5: 5rem;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #242a22;
+    --surface: #1b1f19;
+    --line: #485343;
+    --ink: #e8e4da;
+    --ink-soft: #b9b3a5;
+
+    --accent-temp-high: #c27d6c;
+    --accent-temp-low: #7792ac;
+    --accent-uv: #b08a3e;
+    --accent-wind: #72978b;
+    --accent-precip: #7393ad;
+    --accent-humidity: #968ba0;
+    --accent-dust: #9e8c75;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #242a22;
+  --surface: #1b1f19;
+  --line: #485343;
+  --ink: #e8e4da;
+  --ink-soft: #b9b3a5;
+
+  --accent-temp-high: #c27d6c;
+  --accent-temp-low: #7792ac;
+  --accent-uv: #b08a3e;
+  --accent-wind: #72978b;
+  --accent-precip: #7393ad;
+  --accent-humidity: #968ba0;
+  --accent-dust: #9e8c75;
+}
+
+/* ---------- Reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* ---------- Utility ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.figure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Layout shell ---------- */
+
+.page {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-5);
+}
+
+/* ---------- Header & controls ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+
+.site-title {
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2.25rem);
+  letter-spacing: -0.01em;
+}
+
+.site-tagline {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.toggle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-underline-offset: 0.3em;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  color: var(--accent-temp-high);
+  text-decoration-color: currentColor;
+}
+
+.toggle[aria-pressed="true"] {
+  color: var(--accent-temp-high);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-temp-high);
+  outline-offset: 3px;
+}
+
+/* ---------- Signature: mountain ridgeline ---------- */
+
+.ridgeline {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--space-3) 0;
+  color: var(--line);
+}
+
+.ridgeline path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.ridgeline.animate path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw-ridge 2.2s var(--ease) forwards;
+}
+
+@keyframes draw-ridge {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- Presets & summary ---------- */
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.preset-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.preset-btn:hover,
+.preset-btn:focus-visible,
+.preset-btn[aria-pressed="true"] {
+  color: var(--accent-temp-high);
+  border-color: currentColor;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  padding: var(--space-2) 0 var(--space-3);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--space-3);
+}
+
+@media (min-width: 560px) {
+  .summary-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.summary-stat .eyebrow {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.summary-stat .figure {
+  font-size: 1.4rem;
+}
+
+/* ---------- Customize (reorder) control ---------- */
+
+.customize-panel {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.customize-panel[hidden] {
+  display: none;
+}
+
+.customize-list {
+  list-style: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.customize-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  border-bottom: 1px dotted var(--line);
+  padding-bottom: 0.35rem;
+}
+
+.customize-list button {
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+}
+
+.customize-list button:hover,
+.customize-list button:focus-visible {
+  color: var(--accent-temp-high);
+}
+
+/* ---------- Metric switcher (mobile) ---------- */
+
+.metric-switcher {
+  display: none;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.metric-switcher button {
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid transparent;
+}
+
+.metric-switcher button[aria-selected="true"] {
+  color: var(--accent-temp-high);
+  border-color: currentColor;
+}
+
+/* ---------- Chart sections ---------- */
+
+.charts {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-section {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+
+.chart-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.chart-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.chart-caption {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.chart-canvas {
+  width: 100%;
+  height: 220px;
+}
+
+/* ---------- Error / loading states ---------- */
+
+.state-message {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  padding: var(--space-3) 0;
+}
+
+.state-message[hidden] {
+  display: none;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.site-footer a {
+  color: inherit;
+}
+
+/* ---------- Responsive: mobile switches to one-chart-at-a-time ---------- */
+
+@media (max-width: 768px) {
+  .metric-switcher {
+    display: flex;
+  }
+
+  .chart-section {
+    display: none;
+  }
+
+  .chart-section.is-active {
+    display: block;
+  }
+
+  .chart-canvas {
+    height: 260px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ridgeline.animate path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

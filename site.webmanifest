@@ -1,0 +1,22 @@
+{
+  "name": "El Paso Climate",
+  "short_name": "El Paso Climate",
+  "description": "Five years of daily temperature, UV, wind, rainfall, humidity, and dust data for El Paso, TX.",
+  "start_url": "/all-weather/",
+  "scope": "/all-weather/",
+  "display": "browser",
+  "background_color": "#C3CFBB",
+  "theme_color": "#C3CFBB",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

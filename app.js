@@ -79,7 +79,6 @@ const state = {
 };
 
 const chartInstances = new Map();
-let isSyncingZoom = false;
 
 function loadOrder() {
   try {
@@ -362,29 +361,40 @@ function ensureChartInitialized(metricId) {
   if (chartInstances.has(metricId)) return chartInstances.get(metricId);
   const container = document.getElementById(`canvas-${metricId}`);
   if (!container) return null;
+  // Deliberately NOT using chart.group + echarts.connect() here: connect()
+  // forwards dataZoom by percentage, which is wrong across our differently
+  // -ranged datasets (UV/AQI cover far fewer days than temperature) — manual
+  // sync via syncZoom() (with a silent dispatch, see below) is the only
+  // mechanism in play.
   const chart = echarts.init(container);
-  chart.group = 'yw-synced';
   chart.setOption(buildOption(METRICS[metricId]));
   chart.on('dataZoom', () => {
-    if (isSyncingZoom) return;
     const opt = chart.getOption();
     const dz = opt.dataZoom[0];
     syncZoom(dz.startValue, dz.endValue);
   });
   chartInstances.set(metricId, chart);
-  echarts.connect('yw-synced');
   return chart;
 }
 
 let derivedUpdateTimer = null;
 
+// dispatchAction() fires 'dataZoom' synchronously, and ECharts can snap the
+// requested range to each chart's own nearest data point — since UV/AQI have
+// different timestamps than temperature, the "same" range echoed back from
+// a different chart can land a bit off. A value-equality guard doesn't
+// reliably catch that drift, and each echo was a synchronous re-entrant
+// call, so this built into a stack overflow (confirmed via testing — a
+// single zoom action crashed with "Maximum call stack size exceeded").
+// The correct fix is ECharts' own `silent` dispatch option: it suppresses
+// the resulting event at the source, so the other charts' zoom state
+// updates visually with no event firing at all — no echo, no recursion,
+// regardless of any snapping drift.
 function syncZoom(startValue, endValue) {
-  isSyncingZoom = true;
   state.currentRange = { startValue, endValue };
   for (const chart of chartInstances.values()) {
-    chart.dispatchAction({ type: 'dataZoom', startValue, endValue });
+    chart.dispatchAction({ type: 'dataZoom', startValue, endValue }, { silent: true });
   }
-  isSyncingZoom = false;
 
   // 'dataZoom' fires repeatedly while dragging a slider/pinching (many times
   // a second). updateHiddenTables() in particular can rebuild thousands of

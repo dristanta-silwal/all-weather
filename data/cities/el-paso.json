@@ -1,15 +1,5 @@
 [
   {
-    "date": "2021-11-03",
-    "high_c": 21.9,
-    "low_c": 7.8,
-    "wind_speed_max_kmh": 23.7,
-    "wind_gusts_max_kmh": 40.7,
-    "precipitation_mm": 0,
-    "humidity_mean_pct": 37,
-    "uv_index_max": null
-  },
-  {
     "date": "2021-11-04",
     "high_c": 19.6,
     "low_c": 5.6,
@@ -18257,6 +18247,16 @@
     "wind_gusts_max_kmh": 56.2,
     "precipitation_mm": 3.2,
     "humidity_mean_pct": 64,
+    "uv_index_max": 5.5
+  },
+  {
+    "date": "2026-11-03",
+    "high_c": 21.6,
+    "low_c": 8.9,
+    "wind_speed_max_kmh": 14.9,
+    "wind_gusts_max_kmh": 19.4,
+    "precipitation_mm": 0,
+    "humidity_mean_pct": 48,
     "uv_index_max": 5.5
   }
 ]
